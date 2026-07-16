@@ -19,3 +19,34 @@ test('deleteMonitor zmaže monitor a vráti false pre neexistujúce id', () => {
   assert.equal(listMonitors(db).length, 0);
   assert.equal(deleteMonitor(db, 999), false);
 });
+
+import { recordCheck, getMonitorStats, pruneOldChecks } from '../src/db.js';
+
+test('getMonitorStats počíta uptime a posledný stav', () => {
+  const db = openDb(':memory:');
+  const m = addMonitor(db, 'X', 'https://x.sk');
+  recordCheck(db, m.id, { statusCode: 200, ok: true, latencyMs: 120 });
+  recordCheck(db, m.id, { statusCode: 200, ok: true, latencyMs: 80 });
+  recordCheck(db, m.id, { statusCode: 500, ok: false, latencyMs: 300 });
+  const s = getMonitorStats(db, m.id);
+  assert.equal(s.up, false);
+  assert.equal(s.uptime24h, 66.7);
+  assert.deepEqual(s.latencies, [120, 80, 300]);
+});
+
+test('getMonitorStats bez checkov vráti null hodnoty', () => {
+  const db = openDb(':memory:');
+  const m = addMonitor(db, 'X', 'https://x.sk');
+  const s = getMonitorStats(db, m.id);
+  assert.equal(s.up, null);
+  assert.equal(s.uptime24h, null);
+  assert.deepEqual(s.latencies, []);
+});
+
+test('pruneOldChecks nezmaže čerstvé checky', () => {
+  const db = openDb(':memory:');
+  const m = addMonitor(db, 'X', 'https://x.sk');
+  recordCheck(db, m.id, { statusCode: 200, ok: true, latencyMs: 50 });
+  assert.equal(pruneOldChecks(db, 30), 0);
+  assert.equal(getMonitorStats(db, m.id).latencies.length, 1);
+});

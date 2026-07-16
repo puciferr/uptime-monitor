@@ -1,0 +1,12 @@
+:root { font-family: system-ui, sans-serif; color-scheme: light dark; }
+body { max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+.subtitle { color: gray; }
+.card { border: 1px solid #8884; border-radius: 8px; padding: 1rem; margin: .8rem 0; }
+.card header { display: flex; gap: .6rem; align-items: center; }
+.badge { width: 12px; height: 12px; border-radius: 50%; background: gray; }
+.up .badge { background: #2e9e44; }
+.down .badge { background: #d33; }
+.uptime { margin-left: auto; color: gray; }
+.url { color: gray; font-size: .85rem; margin: .4rem 0; }
+.spark { width: 100%; height: 40px; }
+.spark polyline { fill: none; stroke: #888; stroke-width: 1.5; }

@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    image: uptime-monitor
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      DB_PATH: /data/uptime.db
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - uptime-data:/data
+
+volumes:
+  uptime-data:

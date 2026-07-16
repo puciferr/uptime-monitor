@@ -61,12 +61,12 @@ uptime-monitor/
 - Produces: npm skripty `npm start` (spustí `src/server.js`) a `npm test`
   (spustí `node --test`); nainštalované `express` a `better-sqlite3`.
 
-- [ ] **Krok 0.1: Over verziu Node**
+- [x] **Krok 0.1: Over verziu Node**
 
 Spusti: `node --version`
 Očakávané: `v20.x` alebo vyššie. Ak menej/chýba, nainštaluj LTS z nodejs.org.
 
-- [ ] **Krok 0.2: Inicializuj npm projekt a nainštaluj závislosti**
+- [x] **Krok 0.2: Inicializuj npm projekt a nainštaluj závislosti**
 
 ```
 cd C:\Users\patri\uptime-monitor
@@ -77,7 +77,7 @@ npm install express better-sqlite3
 Očakávané: vznikne `package.json`, `package-lock.json`, `node_modules/`;
 výpis končí `added N packages`.
 
-- [ ] **Krok 0.3: Uprav package.json**
+- [x] **Krok 0.3: Uprav package.json**
 
 Nastav (ručne v editore) tieto polia:
 
@@ -95,7 +95,7 @@ Nastav (ručne v editore) tieto polia:
 
 (`dependencies` nechaj tak, ako ich zapísal npm install.)
 
-- [ ] **Krok 0.4: Vytvor .gitignore**
+- [x] **Krok 0.4: Vytvor .gitignore**
 
 ```
 node_modules/
@@ -103,7 +103,7 @@ data/
 *.db
 ```
 
-- [ ] **Krok 0.5: Commit**
+- [x] **Krok 0.5: Commit**
 
 ```
 git add package.json package-lock.json .gitignore
@@ -124,7 +124,7 @@ git commit -m "Zaloz npm projekt so zavislostami express a better-sqlite3"
   - `listMonitors(db) → Array<{id, name, url, created_at}>`
   - `deleteMonitor(db, id: number) → boolean`
 
-- [ ] **Krok 1.1: Napíš zlyhávajúci test** — `test/db.test.js`:
+- [x] **Krok 1.1: Napíš zlyhávajúci test** — `test/db.test.js`:
 
 ```js
 import { test } from 'node:test';
@@ -150,12 +150,12 @@ test('deleteMonitor zmaže monitor a vráti false pre neexistujúce id', () => {
 });
 ```
 
-- [ ] **Krok 1.2: Over, že test zlyhá**
+- [x] **Krok 1.2: Over, že test zlyhá**
 
 Spusti: `npm test`
 Očakávané: FAIL — `Cannot find module ... src/db.js`.
 
-- [ ] **Krok 1.3: Implementuj** — `src/db.js`:
+- [x] **Krok 1.3: Implementuj** — `src/db.js`:
 
 ```js
 import Database from 'better-sqlite3';
@@ -200,12 +200,12 @@ export function deleteMonitor(db, id) {
 }
 ```
 
-- [ ] **Krok 1.4: Over, že testy prechádzajú**
+- [x] **Krok 1.4: Over, že testy prechádzajú**
 
 Spusti: `npm test`
 Očakávané: `pass 2`, `fail 0`.
 
-- [ ] **Krok 1.5: Commit**
+- [x] **Krok 1.5: Commit**
 
 ```
 git add src/db.js test/db.test.js
@@ -228,7 +228,7 @@ git commit -m "Pridaj SQLite vrstvu so spravou monitorov"
     miesto; `latencies` = latency_ms posledných max 60 checkov, chronologicky)
   - `pruneOldChecks(db, days = 30) → number` (počet zmazaných)
 
-- [ ] **Krok 2.1: Napíš zlyhávajúce testy** — pridaj do `test/db.test.js`:
+- [x] **Krok 2.1: Napíš zlyhávajúce testy** — pridaj do `test/db.test.js`:
 
 ```js
 import { recordCheck, getMonitorStats, pruneOldChecks } from '../src/db.js';
@@ -266,9 +266,9 @@ test('pruneOldChecks nezmaže čerstvé checky', () => {
 Poznámka k importom: `node:test` dovoľuje viac `import` blokov; nechaj
 existujúce importy tak a tento pridaj pod ne.
 
-- [ ] **Krok 2.2: Over zlyhanie** — `npm test` → FAIL (`recordCheck` neexistuje).
+- [x] **Krok 2.2: Over zlyhanie** — `npm test` → FAIL (`recordCheck` neexistuje).
 
-- [ ] **Krok 2.3: Implementuj** — pridaj do `src/db.js`:
+- [x] **Krok 2.3: Implementuj** — pridaj do `src/db.js`:
 
 ```js
 export function recordCheck(db, monitorId, { statusCode, ok, latencyMs }) {
@@ -305,9 +305,9 @@ export function pruneOldChecks(db, days = 30) {
 }
 ```
 
-- [ ] **Krok 2.4: Over** — `npm test` → `pass 5`, `fail 0`.
+- [x] **Krok 2.4: Over** — `npm test` → `pass 5`, `fail 0`.
 
-- [ ] **Krok 2.5: Commit**
+- [x] **Krok 2.5: Commit**
 
 ```
 git add src/db.js test/db.test.js
@@ -328,7 +328,7 @@ git commit -m "Pridaj zaznamenavanie checkov, statistiky a retenciu"
   - `runChecksOnce(db, fetchImpl = fetch) → Promise<void>` (skontroluje všetky
     monitory a výsledky zapíše cez `recordCheck`)
 
-- [ ] **Krok 3.1: Napíš zlyhávajúce testy** — `test/checker.test.js`:
+- [x] **Krok 3.1: Napíš zlyhávajúce testy** — `test/checker.test.js`:
 
 ```js
 import { test } from 'node:test';
@@ -369,9 +369,9 @@ test('runChecksOnce zapíše check pre každý monitor', async () => {
 });
 ```
 
-- [ ] **Krok 3.2: Over zlyhanie** — `npm test` → FAIL (`src/checker.js` neexistuje).
+- [x] **Krok 3.2: Over zlyhanie** — `npm test` → FAIL (`src/checker.js` neexistuje).
 
-- [ ] **Krok 3.3: Implementuj** — `src/checker.js`:
+- [x] **Krok 3.3: Implementuj** — `src/checker.js`:
 
 ```js
 import { listMonitors, recordCheck } from './db.js';
@@ -397,9 +397,9 @@ export async function runChecksOnce(db, fetchImpl = fetch) {
 }
 ```
 
-- [ ] **Krok 3.4: Over** — `npm test` → `pass 9`, `fail 0`.
+- [x] **Krok 3.4: Over** — `npm test` → `pass 9`, `fail 0`.
 
-- [ ] **Krok 3.5: Commit**
+- [x] **Krok 3.5: Commit**
 
 ```
 git add src/checker.js test/checker.test.js
@@ -424,7 +424,7 @@ git commit -m "Pridaj checker s timeoutom a osetrenim sietovych chyb"
   - `DELETE /api/monitors/:id` (Basic Auth) → 204, alebo 404
   - statické súbory z `public/`
 
-- [ ] **Krok 4.1: Napíš zlyhávajúce testy** — `test/api.test.js`:
+- [x] **Krok 4.1: Napíš zlyhávajúce testy** — `test/api.test.js`:
 
 ```js
 import { test } from 'node:test';
@@ -498,9 +498,9 @@ test('DELETE zmaže monitor', async (t) => {
 });
 ```
 
-- [ ] **Krok 4.2: Over zlyhanie** — `npm test` → FAIL (`src/app.js` neexistuje).
+- [x] **Krok 4.2: Over zlyhanie** — `npm test` → FAIL (`src/app.js` neexistuje).
 
-- [ ] **Krok 4.3: Implementuj** — `src/app.js`:
+- [x] **Krok 4.3: Implementuj** — `src/app.js`:
 
 ```js
 import express from 'express';
@@ -557,9 +557,9 @@ export function createApp(db, { adminPassword }) {
 }
 ```
 
-- [ ] **Krok 4.4: Over** — `npm test` → `pass 14`, `fail 0`.
+- [x] **Krok 4.4: Over** — `npm test` → `pass 14`, `fail 0`.
 
-- [ ] **Krok 4.5: Commit**
+- [x] **Krok 4.5: Commit**
 
 ```
 git add src/app.js test/api.test.js
@@ -579,7 +579,7 @@ git commit -m "Pridaj Express API s Basic Auth ochranou administracie"
 - Produces: bežiaci proces `npm start`; env premenné `PORT` (default 3000),
   `DB_PATH` (default `./data/uptime.db`), `ADMIN_PASSWORD` (default `admin123`)
 
-- [ ] **Krok 5.1: Implementuj** — `src/server.js`:
+- [x] **Krok 5.1: Implementuj** — `src/server.js`:
 
 ```js
 import fs from 'node:fs';
@@ -609,7 +609,7 @@ pruneOldChecks(db);
 setInterval(() => pruneOldChecks(db), PRUNE_INTERVAL_MS);
 ```
 
-- [ ] **Krok 5.2: Spusti a ručne over**
+- [x] **Krok 5.2: Spusti a ručne over**
 
 Spusti: `npm start`
 Očakávané: `Uptime monitor beží na http://localhost:3000`
@@ -630,7 +630,7 @@ curl.exe http://localhost:3000/api/monitors
 
 Očakávané: JSON s `"up":true` a neprázdnym `"latencies":[...]`.
 
-- [ ] **Krok 5.3: Commit**
+- [x] **Krok 5.3: Commit**
 
 ```
 git add src/server.js
@@ -648,7 +648,7 @@ git commit -m "Zapoj server s checkovacim intervalom a retenciou"
 - Consumes: `GET /api/monitors` (pole objektov `{id, name, url, up, uptime24h, latencies}`)
 - Produces: verejná status stránka na `http://localhost:3000/`
 
-- [ ] **Krok 6.1: Vytvor `public/index.html`**
+- [x] **Krok 6.1: Vytvor `public/index.html`**
 
 ```html
 <!doctype html>
@@ -668,7 +668,7 @@ git commit -m "Zapoj server s checkovacim intervalom a retenciou"
 </html>
 ```
 
-- [ ] **Krok 6.2: Vytvor `public/main.js`**
+- [x] **Krok 6.2: Vytvor `public/main.js`**
 
 ```js
 const esc = s => String(s).replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
@@ -712,7 +712,7 @@ refresh();
 setInterval(refresh, 30_000);
 ```
 
-- [ ] **Krok 6.3: Vytvor `public/style.css`**
+- [x] **Krok 6.3: Vytvor `public/style.css`**
 
 ```css
 :root { font-family: system-ui, sans-serif; color-scheme: light dark; }
@@ -729,7 +729,7 @@ body { max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
 .spark polyline { fill: none; stroke: #888; stroke-width: 1.5; }
 ```
 
-- [ ] **Krok 6.4: Ručne over v prehliadači**
+- [x] **Krok 6.4: Ručne over v prehliadači**
 
 Spusti `npm start` (ak nebeží) a otvor `http://localhost:3000`.
 Očakávané: karta „Google" so zeleným kolieskom, uptime % a sparkline grafom.
@@ -739,7 +739,7 @@ Pridaj druhý monitor s neexistujúcou URL a over, že do 2 minút zčervenie:
 curl.exe -u admin:admin123 -H "Content-Type: application/json" -d "{\"name\":\"Pokazeny\",\"url\":\"https://neexistuje-12345.sk\"}" http://localhost:3000/api/monitors
 ```
 
-- [ ] **Krok 6.5: Commit + push (koniec míľnika 1)**
+- [x] **Krok 6.5: Commit + push (koniec míľnika 1)**
 
 ```
 git add public/
